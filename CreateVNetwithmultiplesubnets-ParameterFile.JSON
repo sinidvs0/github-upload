@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vNetName": {
+      "value": "Spoke-VNet-10"
+    },
+    "vNetPrefix": {
+      "value": "10.0.32.0/20"
+    },
+    "subnets": {
+      "value": [
+        {
+          "name": "InternalSubnet-1",
+          "addressPrefix": "10.0.32.0/24"
+        },
+        {
+          "name": "InternalSubnet-2",
+          "addressPrefix": "10.0.33.0/24"
+        }
+      ]
+    },
+    "location": {
+      "value": "East US"
+    }
+  }
+}

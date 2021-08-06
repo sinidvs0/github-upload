@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "route_table_name": {
+      "value": "RouteTable-sini-04"
+    },
+    "route_table_location": {
+      "value": "East US"
+    },
+    "Propagate gateway routes": {
+      "value": false
+    },
+    "route_name": {
+      "value": "Route1"
+    },
+    "addressPrefix": {
+      "value": "0.0.0.0/0"
+    },
+    "nextHopType": {
+      "value": "VirtualAppliance"
+    },
+    "nextHopIpAddress": {
+      "value": "10.0.0.0"
+    }
+  }
+}

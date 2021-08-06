@@ -1,0 +1,50 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "nsgname": {
+      "value": "Test-NSG4"
+    },
+    "location": {
+      "value": "East US2"
+    },
+    "nsg_securityrule": {
+      "value": [
+        {
+          "name": "Allow_All_Inbound",
+          "properties": {
+            "description": "Allow_all_traffic",
+            "protocol": "*",
+            "sourcePortRange": "*",
+            "destinationPortRange": "*",
+            "sourceAddressPrefix": "10.0.0.0/20",
+            "destinationAddressPrefix": "10.0.32.0/24",
+            "access": "Allow",
+            "priority": 100,
+            "direction": "Inbound"
+          }
+        },
+        {
+          "name": "allow-outbound_Port_80and443",
+          "properties": {
+            "description": "Allow80,443",
+            "protocol": "Tcp",
+            "sourcePortRanges": [
+              "80",
+              "443"
+            ],
+            "destinationPortRanges": [
+              "80",
+              "443"
+            ],
+            "sourceAddressPrefix": "10.0.32.0/24",
+            "destinationAddressPrefix": "10.0.0.0/20",
+            "access": "Allow",
+            "priority": 100,
+            "direction": "Outbound"
+          }
+        }
+      ]
+    }
+  }
+}

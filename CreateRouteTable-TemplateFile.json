@@ -1,0 +1,114 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "route_table_name": {
+            "type": "string",
+            "metadata": {
+            "description": "Name of the route table"
+   }
+        },
+        "route_table_location": {
+            "type": "string",
+            "metadata": {
+            "description": "The location in which the route table should be deployed."
+     },
+     "allowedValues": ["East Asia",
+"Southeast Asia",
+"Central US",
+"East US",
+"East US 2",
+"West US",
+"North Central US",
+"South Central US",
+"North Europe",
+"West Europe",
+"Japan West",
+"Japan East",
+"Brazil South",
+"Australia East",
+"Australia Southeast",
+"South India",
+"Central India",
+"West India",
+"JIO India West",
+"Canada Central",
+"Canada East",
+"UK South",
+"UK West",
+"West Central US",
+"West US 2",
+"Korea Central",
+"Korea South",
+"France Central",
+"France South",
+"Australia Central",
+"Australia Central 2",
+"UAE Central",
+"UAE North",
+"South Africa North",
+"South Africa West",
+"Switzerland North",
+"Switzerland West",
+"Germany North",
+"Germany West Central",
+"Norway West",
+"Norway East",
+"Brazil Southeast",
+"West US 3"]
+        },
+        "Propagate gateway routes": {
+            "type": "bool",
+            "metadata": {
+            "description": "Whether to disable the routes learned by BGP on that route table. Setting this parameter to True means disable."
+     },
+        "defaultValue": false
+        },
+        "route_name": {
+            "type": "string",
+            "metadata": {
+            "description": "The name of the route which will be created in the route table."
+     }
+        },
+        "addressPrefix": {
+            "type": "string",
+                  "metadata": {
+            "description": "The address prefix for the route."
+     }
+        },
+        "nextHopType": {
+            "type": "string",
+            "metadata": {
+            "description": "The NextHopType for the route."
+     },
+            "defaultValue": "VirtualAppliance"
+        },
+        "nextHopIpAddress": {
+            "type": "string",
+            "metadata": {
+            "description": "The NextHopIpAddress for the route."
+     }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/routeTables",
+            "apiVersion": "2019-09-01",
+            "name": "[parameters('route_table_name')]",
+            "location": "[parameters('route_table_location')]",
+                "properties": {
+                    "disableBgpRoutePropagation": "[parameters('Propagate gateway routes')]",
+                    "routes": [
+                    {
+                        "name": "[parameters('route_name')]",
+                        "properties": {
+                            "addressPrefix": "[parameters('addressPrefix')]",
+                            "nextHopType": "[parameters('nextHopType')]",
+                            "nextHopIpAddress": "[parameters('nextHopIpAddress')]"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

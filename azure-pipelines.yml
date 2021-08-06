@@ -1,0 +1,20 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'ES-CE-LR-INT SINIDEVASIA(9ca95e44-6fce-4ef1-9ccc-9726db766ea7)'
+    subscriptionId: '9ca95e44-6fce-4ef1-9ccc-9726db766ea7'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'Test-ReleasePipeline'
+    location: 'EastUS'
+    templateLocation: 'Linked artifact'
+    csmFile: '$(Build.SourcesDirectory)/VNet/VNet-Template.json'
+    csmParametersFile: '$(Build.SourcesDirectory)/VNet/VNet-Parameter.json'
+    deploymentMode: 'Incremental'

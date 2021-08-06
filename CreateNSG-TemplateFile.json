@@ -1,0 +1,108 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "nsgname": {
+            "type": "string",
+            "metadata": {
+       "description": "The name of the network security group."
+     }
+        },
+        "location":{
+          "type": "string",
+          "metadata": {
+       "description": "The location in which the NSG should be deployed."
+     },
+"allowedValues": ["East Asia",
+"Southeast Asia",
+"Central US",
+"East US",
+"East US 2",
+"West US",
+"North Central US",
+"South Central US",
+"North Europe",
+"West Europe",
+"Japan West",
+"Japan East",
+"Brazil South",
+"Australia East",
+"Australia Southeast",
+"South India",
+"Central India",
+"West India",
+"JIO India West",
+"Canada Central",
+"Canada East",
+"UK South",
+"UK West",
+"West Central US",
+"West US 2",
+"Korea Central",
+"Korea South",
+"France Central",
+"France South",
+"Australia Central",
+"Australia Central 2",
+"UAE Central",
+"UAE North",
+"South Africa North",
+"South Africa West",
+"Switzerland North",
+"Switzerland West",
+"Germany North",
+"Germany West Central",
+"Norway West",
+"Norway East",
+"Brazil Southeast",
+"West US 3"]
+        },
+        "nsg_securityrule": {
+          "type": "array",
+          "metadata": {
+       "description": "The array with values for security rules that need to be created in the NSG."
+     },
+        
+           "defaultValue":[
+      {
+        "name": "Allow_All_Inbound",
+        "properties": {
+          "description": "Allow_all_traffic",
+          "protocol": "*",
+          "sourcePortRange": "*",
+          "destinationPortRange": "*",
+          "sourceAddressPrefix": "10.0.0.0/20",
+          "destinationAddressPrefix": "10.0.32.0/24",
+          "access": "Allow",
+          "priority": 100,
+          "direction": "Inbound"
+        }
+      },
+      {"name":"allow-outbound_Port_80and443",
+      "properties":{"description":"Allow80,443",
+      "protocol":"Tcp",
+      "sourcePortRanges":["80","443"],
+      "destinationPortRanges":["80","443"],
+      "sourceAddressPrefix":"10.0.32.0/24",
+      "destinationAddressPrefix":"10.0.0.0/20",
+      "access":"Allow",
+      "priority":100,
+      "direction":"Outbound"}}
+    ]
+        }
+    },
+    "resources": [
+{
+  "comments":"This section defines the resource that need to be created ,ie NSG creation with the inbound and outboundrules which is passed through the nsg_security_rule array",
+   "apiVersion": "2019-04-01",
+  "type": "Microsoft.Network/networkSecurityGroups",
+  "name": "[parameters('nsgname')]",
+  "location": "[parameters('location')]",
+  "properties": {
+    "securityRules": "[parameters('nsg_securityrule')]"
+  }
+}
+        
+    ]
+   
+}

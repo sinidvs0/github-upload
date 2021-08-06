@@ -1,0 +1,121 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vNetName": {
+            "type": "string",
+            "metadata": {
+       "description": "The name of the VNet."
+     }
+
+                },
+        "vNetPrefix": {
+            "type": "string",
+            "metadata": {
+       "description": "The address prefix of the VNet."
+     }
+        },
+        "subnets": {
+            "type": "array",
+            "metadata": {
+       "description": "The name and address prefix of the subnets which need to be created in this VNet."
+     },
+            "defaultValue":[
+                {"name": "InternalSubnet-1",
+          "addressPrefix": "10.0.1.0/24"
+            },
+            {"name": "InternalSubnet-2",
+          "addressPrefix": "10.0.2.0/24"
+            },
+            {"name": "ExternalSubnet-1",
+          "addressPrefix": "10.0.3.0/24"
+            },
+            {"name": "ExternalSubnet-2",
+          "addressPrefix": "10.0.4.0/24"
+            }
+            ]
+        },
+        "location": {
+      "type": "string",
+      "metadata": {
+       "description": "The location in which the VNet should be deployed."
+     },
+      "allowedValues": ["East Asia",
+"Southeast Asia",
+"Central US",
+"East US",
+"East US 2",
+"West US",
+"North Central US",
+"South Central US",
+"North Europe",
+"West Europe",
+"Japan West",
+"Japan East",
+"Brazil South",
+"Australia East",
+"Australia Southeast",
+"South India",
+"Central India",
+"West India",
+"JIO India West",
+"Canada Central",
+"Canada East",
+"UK South",
+"UK West",
+"West Central US",
+"West US 2",
+"Korea Central",
+"Korea South",
+"France Central",
+"France South",
+"Australia Central",
+"Australia Central 2",
+"UAE Central",
+"UAE North",
+"South Africa North",
+"South Africa West",
+"Switzerland North",
+"Switzerland West",
+"Germany North",
+"Germany West Central",
+"Norway West",
+"Norway East",
+"Brazil Southeast",
+"West US 3"]
+    }
+    },
+    "resources":[
+
+{
+  "comments": "This section will create the VNet",
+  "name": "[parameters('vNetName')]",
+  "type": "Microsoft.Network/virtualNetworks",
+  "location": "[parameters('location')]",
+  "apiVersion": "2017-10-01",
+  "tags": {
+    "displayName": "[parameters('vNetName')]"
+  },
+  "properties": {
+    "addressSpace": {
+      "addressPrefixes": [
+        "[parameters('vNetPrefix')]"
+      ]
+    },
+    "copy": [
+      {
+        "comments":"This section will create the subnets in the VNet",
+        "name": "subnets",
+        "count": "[length(parameters('subnets'))]",
+        "input": {
+          "name": "[parameters('subnets')[copyIndex('subnets')].name]",
+          "properties": {
+            "addressPrefix": "[parameters('subnets')[copyIndex('subnets')].addressPrefix]"
+          }
+        }
+      }
+    ]
+  }
+}
+    ]
+}
